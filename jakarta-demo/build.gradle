@@ -1,0 +1,60 @@
+plugins {
+  id 'java'
+  id 'war'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  junitVersion = '5.10.2'
+}
+
+war {
+  archiveFileName.set("${project.name}.war")
+}
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+dependencies {
+  compileOnly('jakarta.platform:jakarta.jakartaee-web-api:10.0.0')
+  implementation('org.eclipse.persistence:org.eclipse.persistence.jpa:4.0.2')
+  compileOnly 'org.projectlombok:lombok:1.18.36'
+  annotationProcessor 'org.projectlombok:lombok:1.18.36'
+  implementation 'org.postgresql:postgresql:42.7.5'
+  testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+useJUnitPlatform()}
+
+ext {
+  deploymentDir="${System.getenv('GLASSFISH_HOME')}/glassfish/domains/domain2/autodeploy"
+  String val = System.getenv("DEPLOYMENT_DIR")
+  if (val != null) {
+    deploymentDir=val
+  }
+  println("deploymentDir = ${deploymentDir}")
+}
+
+tasks.register('copyArchive', Copy) {
+  dependsOn(war)
+  def archiveFile = war.archiveFileName.get()
+  Provider<Directory> output = layout.buildDirectory.dir("libs")
+  from(output.get()) {
+    include "**/${archiveFile}"
+  }
+  into "${deploymentDir}"
+  doNotTrackState("Installation directory contains unrelated files")
+  println("Copyed file ${output.get()}/${archiveFile}")
+}
