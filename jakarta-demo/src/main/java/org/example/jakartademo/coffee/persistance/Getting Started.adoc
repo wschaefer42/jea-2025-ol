@@ -1,0 +1,22 @@
+= Coffee Shop
+
+This simple domain is an simple introduction in the basic elements of
+Jakarta EE 10. It only consists of a single Entity `Coffee`.
+
+We are follow the description of https://jakarta.ee/learn/starter-guides/how-to-store-and-retrieve-data-using-jakarta-persistence/[Sample]
+
+== Class Diagram
+[plantuml]
+----
+@startuml
+entity Coffee {
+    *ID: int //<<autoincrement>>//
+    name: String //<<unique>>//
+    price: Double
+}
+class CoffeeRepository {
+
+}
+CoffeeRepository ..> Coffee
+@enduml
+----

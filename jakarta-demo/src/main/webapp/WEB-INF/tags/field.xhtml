@@ -1,0 +1,45 @@
+<ui:composition
+        xmlns:faces="jakarta.faces"
+        xmlns:f="jakarta.faces.core"
+        xmlns:c="jakarta.tags.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:ui="jakarta.faces.facelets">
+   <h:outputLabel id="#{id}_l" for="#{id}" value="#{label}" />
+   <c:choose>
+      <c:when test="#{type eq 'password'}">
+         <h:inputSecret id="#{id}" label="#{label}" value="#{value}" />
+      </c:when>
+      <c:when test="#{type eq 'textarea'}">
+         <h:inputTextarea id="#{id}" label="#{label}" value="#{value}" />
+      </c:when>
+      <c:when test="#{type == 'select'}">
+         <h:selectOneMenu id="#{id}" value="#{value}">
+            <f:selectItems value="#{options}"/>
+         </h:selectOneMenu>
+      </c:when>
+      <c:when test="#{type == 'label'}">
+         <h:outputLabel id="#{id}" value="#{value}"/>
+      </c:when>
+      <c:otherwise>
+         <c:if test="#{readonly ne true}">
+            <h:panelGroup>
+               <h:inputText id="#{id}" label="#{label}" value="#{value}" type="#{not empty type ? type : 'text'}" requiredMessage="Value is required">
+                  <c:if test="#{required eq true}">
+                     <f:validateRequired />
+                  </c:if>
+                  <c:if test="#{not empty validator}">
+                     <f:validator binding="#{validator}"/>
+                  </c:if>
+               </h:inputText>
+               <c:if test="#{required eq true}">
+                  <span style='font-size:20px;'>&#9679;</span>
+               </c:if>
+            </h:panelGroup>
+         </c:if>
+         <c:if test="#{readonly eq true}">
+            <h:inputText id="#{id}" label="#{label}" value="#{value}" type="#{type}" style="background: transparent" readonly="true"/>
+         </c:if>
+      </c:otherwise>
+   </c:choose>
+   <h:message for="#{id}" errorStyle="color: red" infoStyle="color: green" />
+</ui:composition>

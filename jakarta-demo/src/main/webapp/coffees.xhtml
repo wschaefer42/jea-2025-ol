@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="jakarta.tags.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+    <title>Coffees</title>
+</h:head>
+<h:body>
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+    <h1>Coffees - Version 2.0</h1>
+    <h2>Coffee List</h2>
+    <h:form id="inputForm">
+        <!-- Data List -->
+        <h:dataTable value="#{coffeeBacking.coffees}" var="coffee">
+            <h:column style="width: 2rem">
+                <c:if test="#{not empty coffeeBacking.current and coffeeBacking.current.id() == coffee.id()}">
+                    <i class="pi pi-check" style="font-size: 1rem"/>
+                </c:if>
+            </h:column>
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{coffee.id()}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{coffee.name()}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Price</f:facet>
+                <h:outputText value="#{coffee.price()}">
+                    <f:convertNumber type="currency" currencyCode="CHF"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
+                #{coffee.beanType()}
+            </h:column>
+            <h:column>
+                <h:panelGroup>
+                    <h:commandButton value="Edit" action="#{coffeeBacking.selectCoffee(coffee.id())}" immediate="true">
+                        <f:ajax execute="@form" render="inputForm"/>
+                    </h:commandButton>
+                </h:panelGroup>
+            </h:column>
+        </h:dataTable>
+        <br/>
+        <c:if test="#{coffeeBacking.editMode == 'NONE'}">
+            <h:commandButton id="newButton" value="New Coffee" action="#{coffeeBacking.newCoffee()}">
+                <f:ajax render="inputForm"/>
+            </h:commandButton>
+        </c:if>
+        <!-- Edit Form -->
+        <h:panelGroup rendered="#{coffeeBacking.editMode != 'NONE'}">
+            <h2>#{coffeeBacking.editMode == 'NEW' ? 'New Coffee' : 'Edit Coffee'}</h2>
+            <h:panelGrid columns="3">
+                <h:outputLabel for="name" value="Coffee Name:"/>
+                <h:inputText id="name" value="#{coffeeBacking.coffeeName}">
+                    <f:validateLength minimum="3" maximum="100"/>
+                </h:inputText>
+                <h:message for="name" errorStyle="color: red" infoStyle="color: green"/>
+                <h:outputLabel for="price" value="Coffee Price:"/>
+                <h:inputText id="price" value="#{coffeeBacking.coffeePrice}">
+                    <f:convertNumber type="currency" currencyCode="CHF"/>
+                </h:inputText>
+                <h:message for="price" errorStyle="color: red" infoStyle="color: green"/>
+                <h:outputLabel for="beanType" value="Bean Type:"/>
+                <h:selectOneMenu id="beanType" value="#{coffeeBacking.coffeeBeanType}">
+                    <f:selectItems value="#{coffeeBacking.coffeeBeanTypes()}" var="type" itemValue="#{type}"/>
+                </h:selectOneMenu>
+                <h:message for="beanType" errorStyle="color: red" infoStyle="color: green"/>
+                <h:outputText/>
+                <h:panelGroup>
+                    <h:commandButton id="cancelButton" value="Cancel" action="#{coffeeBacking.cancel()}" immediate="true"/>
+                    <h:outputText value=" "/>
+                    <h:commandButton id="saveButton" value="Save" action="#{coffeeBacking.saveCoffee()}">
+                        <f:ajax execute="@form" render="inputForm"/>
+                    </h:commandButton>
+                </h:panelGroup>
+            </h:panelGrid>
+        </h:panelGroup>
+    </h:form>
+</h:body>
+</html>

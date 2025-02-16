@@ -1,9 +1,11 @@
-package org.example.jakartademo.tests;
+package org.example.jakartademo.user.persistence;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 import jakarta.inject.Inject;
+
+import java.util.List;
 
 @Startup
 @Singleton
@@ -13,7 +15,10 @@ public class UserLoader {
 
     @PostConstruct
     public void init() {
-        userRepository.createUser(new User("John"));
-        userRepository.createUser(new User("Jane"));
+        for (var name : List.of("Alice", "Bob", "Werner")) {
+            if (userRepository.findByName(name) == null) {
+                userRepository.saveUser(new User(name));
+            }
+        }
     }
 }

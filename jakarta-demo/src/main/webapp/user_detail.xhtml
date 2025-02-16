@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="jakarta.tags.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:t="example.tags">
+<h:head>
+   <title>User Detail</title>
+</h:head>
+<f:metadata>
+   <f:viewParam
+           name="id"
+           value="#{userDetail.user}"
+           converter="#{userConverter}"
+           converterMessage="Unknown user"
+   />
+</f:metadata>
+<h:body>
+   <h2>User Details</h2>
+   <h:form id="inputForm">
+      <c:set value="#{userDetail.user}" var="user"/>
+      <h3>${empty user ? 'New' : 'Edit'} User</h3>
+      <c:if test="#{not empty user}">
+         <h4>User ID: ${user.id}</h4>
+      </c:if>
+      <h:panelGrid columns="3">
+         <t:field id="id" label="ID:" type="label" value="#{user.id}"/>
+         <t:field id="name" label="Name:" value="#{userDetail.username}" required="true"/>
+         <t:field id="email" label="EMail:" value="#{userDetail.email}" validator="#{userDetail.EMailValidator}"/>
+         <h:outputLabel value="Country:"/>
+         <h:selectOneMenu id="countryCode" value="#{userDetail.countryCode}">
+            <f:selectItem itemValue="#{null}" itemLabel="--"/>
+            <f:selectItems value="#{userDetail.countries}" var="country" itemValue="#{country.code()}" itemLabel="#{country.name()}"/>
+         </h:selectOneMenu>
+         <f:facet name="footer">
+            <h:commandButton id="saveButton" value="Save" action="#{userDetail.save()}">
+               <f:ajax execute="@form" render="inputForm"/>
+            </h:commandButton>
+            <h:outputText value=" "/>
+            <h:commandButton value="Cancel" action="user_list.xhtml" immediate="true"/>
+            <h:outputText value=" "/>
+            <h:commandButton value="Debug" action="#{userDetail.debug()}">
+               <f:ajax execute="@form" render="inputForm"/>
+            </h:commandButton>
+         </f:facet>
+      </h:panelGrid>
+   </h:form>
+</h:body>
+</html>

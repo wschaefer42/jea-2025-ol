@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="jakarta.tags.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+   <title>User List</title>
+</h:head>
+<h:body>
+   <h2>User List</h2>
+   <c:if test="#{not empty userList.lastModified}">
+      <p>Last Modified: #{userList.lastModified}</p>
+   </c:if>
+   <h:panelGroup layout="block" id="userListGroup">
+      <h:dataTable value="#{userList.users}" var="user" rendered="#{not empty userList.users}">
+         <h:column>
+            #{user.id}
+         </h:column>
+         <h:column>
+            #{user.username}
+         </h:column>
+         <h:column>
+            #{user.email}
+         </h:column>
+         <h:column>
+            #{userList.getCountry(user.countryCode).name()}
+         </h:column>
+         <h:column>
+            <h:link value="Edit" outcome="user_detail">
+               <f:param name="id" value="#{user.id}"/>
+            </h:link>
+         </h:column>
+      </h:dataTable>
+   </h:panelGroup>
+   <br/>
+   <h:form>
+      <h:commandScript name="userListScript" autorun="true" action="#{userList.loadUsers}" render=":userListGroup"/>
+      <h:commandButton value="Reload" action="#{userList.loadUsers}">
+         <f:ajax render=":userListGroup"/>
+      </h:commandButton>
+   </h:form>
+   <br/>
+   <h:button value="New User" outcome="user_detail"/>
+</h:body>
+</html>

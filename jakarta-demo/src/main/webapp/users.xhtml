@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="jakarta.tags.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:t="example.tags">
+<h:head>
+   <title>Users</title>
+</h:head>
+<h:body>
+   <h2>Users</h2>
+   <h3>User List</h3>
+   <h:form id="inputForm">
+      <h:dataTable value="#{userBacking.users}" var="user">
+         <t:column value="#{user.id}" label="ID"/>
+         <t:column value="#{user.username}" label="Username"/>
+         <t:column value="#{user.email}" label="Email"/>
+         <t:column value="#{userBacking.getCountry(user.countryCode).name()}" label="Country"/>
+         <h:column>
+            <h:panelGroup>
+               <h:commandButton value="Edit" action="#{userBacking.editUser(user.id)}">
+                  <f:ajax render="inputForm"/>
+               </h:commandButton>
+            </h:panelGroup>
+         </h:column>
+      </h:dataTable>
+      <c:if test="#{empty userBacking.user}">
+         <h:commandButton value="New User" action="#{userBacking.newUser()}">
+            <f:ajax render="inputForm"/>
+         </h:commandButton>
+      </c:if>
+      <br/>
+      <h:panelGroup id="inputGroup" rendered="#{not empty userBacking.user}">
+         <h3>${empty userBacking.user.id ? 'New' : 'Edit'} User</h3>
+         <h:panelGrid columns="3">
+            <t:field id="id" label="ID:" type="label" value="#{userBacking.user.id}"/>
+            <t:field id="name" label="Name:" value="#{userBacking.username}" required="true"/>
+            <t:field id="email" label="EMail:" value="#{userBacking.email}" validator="#{userBacking.EMailValidator}"/>
+            <h:outputLabel value="Country:"/>
+            <h:selectOneMenu id="countryCode" value="#{userBacking.countryCode}">
+               <f:selectItem itemValue="#{null}" itemLabel="--"/>
+               <f:selectItems value="#{userDetail.countries}" var="country" itemValue="#{country.code()}" itemLabel="#{country.name()}"/>
+            </h:selectOneMenu>
+         </h:panelGrid>
+         <br/>
+         <h:commandButton id="saveButton" value="Save" action="#{userBacking.saveUser()}">
+            <f:ajax execute="@form" render="inputForm"/>
+         </h:commandButton>
+         <h:outputText value=" "/>
+         <h:commandButton value="Cancel" action="#{userBacking.cancel()}" immediate="true">
+            <f:ajax render="inputForm"/>
+         </h:commandButton>
+      </h:panelGroup>
+      <h:messages globalOnly="true" infoStyle="color: green" errorStyle="color: red"/>
+   </h:form>
+</h:body>
+</html>

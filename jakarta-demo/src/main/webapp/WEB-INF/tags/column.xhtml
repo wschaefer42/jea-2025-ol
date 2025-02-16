@@ -1,0 +1,10 @@
+<ui:composition
+        xmlns:faces="jakarta.faces"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:ui="jakarta.faces.facelets">
+   <h:column>
+      <f:facet name="header">#{label}</f:facet>
+      <h:outputText value="#{value}"/>
+   </h:column>
+</ui:composition>
