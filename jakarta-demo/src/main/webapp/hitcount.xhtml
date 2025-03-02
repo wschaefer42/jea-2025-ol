@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="jakarta.tags.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+   <title>HitCount</title>
+</h:head>
+<h:body>
+   <h2>Hit Count</h2>
+   <p>Hit Count ${hitCountBean.hitCount}</p>
+   <h:form>
+      <h:commandButton value="Increment" action="#{hitCountBean.incrementHitCount()}"/>
+   </h:form>
+</h:body>
+</html>

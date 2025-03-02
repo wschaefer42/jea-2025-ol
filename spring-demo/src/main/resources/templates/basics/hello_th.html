@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="Hello"/>
+</head>
+<body>
+<h2>Hello Thymeleaf</h2>
+<h3>Add new Message</h3>
+<form action="/hello-th" method="post">
+    <input type="hidden" name="id" value="${hello?.id!0}"/>
+    <label>Name
+        <input type="text" id="name" name="name" th:value="${hello?.name}">
+    </label>
+    <label>Message
+        <input type="text" id="message" name="message" th:value="${hello?.message}">
+    </label>
+    <input type="submit" value="submit">
+</form>
+<br/>
+<div th:if="${hellos}">
+    <h3>Messages</h3>
+    <ul th:each="hello : ${hellos}">
+        <li>
+            <span th:text="${hello.name}"/> says: <span th:text="${hello.message}"/>
+            <a th:href="@{/hello-th/{id}/edit(id=${hello.id})}">Edit</a>
+        </li>
+    </ul>
+</div>
+<div th:unless="${hellos}">
+    <a href="/hello-th/list">Get All Messages</a>
+</div>
+</body>
+</html>
