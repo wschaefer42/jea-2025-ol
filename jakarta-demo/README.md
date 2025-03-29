@@ -46,3 +46,11 @@ psql postgres://postgres:postgres@localhost:5432
 create user admin password 'admin';
 create database jea2025 owner admin;
 ```
+
+### Domain3
+```shell
+asadmin --port 4853 create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGSimpleDataSource --restype javax.sql.DataSource \
+  --property portNumber=5432:password=admin:user=admin:serverName=localhost:databaseName=jea2025 jea2025
+asadmin --port 4853 create-jdbc-resource --connectionpoolid jea2025 jdbc/jea2025
+
+```

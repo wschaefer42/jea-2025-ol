@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="jakarta.tags.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<f:view>
+   <h2>Hit Count</h2>
+   Counter: <h:outputText id="hitCount" value="#{hitBean.steps}"/>
+   <h:form>
+      <!--
+      <h:inputHidden id="hits" name="hits" value="#{hitBean.hits}"/>
+      -->
+      <h:commandButton value="Increment" action="#{hitBean.incrementHits()}">
+         <f:ajax execute="@form" render="hitCount"/>
+      </h:commandButton>
+   </h:form>
+</f:view>
+</html>
