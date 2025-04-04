@@ -13,7 +13,7 @@ import java.util.Map;
 public class HelloLoader {
     @Bean
     public ApplicationRunner loadHellos(HelloRepository repository) {
-        return _ -> {
+        return args -> {
             int count = 0;
             for (var entity : Map.of("World", "Hello", "Peter", "Good Morning").entrySet()) {
                 if (repository.findByAny(entity.getKey(), entity.getValue()) == null) {

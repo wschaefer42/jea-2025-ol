@@ -13,10 +13,17 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/spring-demo" />
-        <option name="gradleJvm" value="22" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/spring-demo" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/spring-getting-started" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/spring-getting-started" />
           </set>
         </option>
       </GradleProjectSettings>

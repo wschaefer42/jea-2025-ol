@@ -13,6 +13,7 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/jakarta-demo" />
     <file type="web" url="file://$PROJECT_DIR$/spring-demo" />
+    <file type="web" url="file://$PROJECT_DIR$/spring-getting-started" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
