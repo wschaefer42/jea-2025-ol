@@ -12,6 +12,22 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/quarkus-demo" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/quarkus-demo" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/spring-classroom" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/spring-classroom" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/spring-demo" />
         <option name="modules">
           <set>

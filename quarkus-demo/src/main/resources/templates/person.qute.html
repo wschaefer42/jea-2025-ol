@@ -1,0 +1,47 @@
+{@java.util.List<com.example.domain.Person> persons}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Persons</title>
+  <style>
+    body {
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+<h2>Persons</h2>
+<h3>Persons List</h3>
+<table>
+  {#each persons.orEmpty}
+    <tr>
+      <td>{it.firstName}</td>
+      <td>{it.lastName}</td>
+      <td>{it.town.name}</td>
+      <td><a href="/persons/{it.id}">Details</a></td>
+    </tr>
+  {/each}
+</table>
+<br>
+<form>
+  <button type="button" value="Add Person" onclick="window.location.href='/persons/new'">Add Person</button>
+</form>
+<br>
+{#if person??}
+  {#fragment id=form}
+    <h3>Person Details</h3>
+    <p>Person Details for {person.id ?: 0}</p>
+    <form>
+      <label>First Name
+        <input type="text" name="firstName" value="{person.firstName}">
+      </label>
+      <label>last Name
+        <input type="text" name="lastName" value="{person.lastName}">
+      </label>
+      <button type="submit" value="Save"></button>
+    </form>
+  {/fragment}
+{/if}
+</body>
+</html>
